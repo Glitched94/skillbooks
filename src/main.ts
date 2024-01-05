@@ -1,5 +1,5 @@
 import { Args } from "grimoire-kolmafia";
-import { Item, buy, buyPrice, itemAmount, mallPrice, print, use } from "kolmafia";
+import { Item, buy, mallPrice, print, use } from "kolmafia";
 import { $items, $skill, canUse, get, have } from "libram";
 
 import { args } from "./lib/args";
@@ -13,7 +13,7 @@ export function main(command: string): void {
 
   // Filter item list to only items that grant skills that the player doesn't have and that they can use.
   var skillGranters: Item[] = $items``
-    .filter((item) => item.skill !== $skill`none` && !have(item.skill) && canUse(item));
+    .filter((item) => item.skill !== $skill`none` && !have(item.skill));
 
   if (args.buy) {
     if (args.buyLimit <= 0) {
@@ -33,6 +33,7 @@ export function main(command: string): void {
   } else if (args.useKarma) {
     useKarma(haveItems);
   } else if (args.useAll) {
+    print(`Found ${haveItems.length} skill-granting items in your inventory that you haven't used...`, "green");
     useAll(haveItems);
   } else {
     haveItems.forEach((item) => {
@@ -66,6 +67,8 @@ function buyItems(items: Item[]) {
 function useReusable(inv: Item[]) {
   var reusable = inv
     .filter((item) => item.reusable);
+
+  print(`Found ${reusable.length} re-usable skill-granting items in your inventory that you haven't used...`, "green");
   useAll(reusable);
 }
 
@@ -74,11 +77,12 @@ function useKarma(inv: Item[]) {
   var limit = bankedKarma / 100;
 
   var permable = inv.slice(0, limit);
+
+  print(`Found ${permable.length} skill-granting items in your inventory that you haven't used and have the karma to softcore perm...`, "green");
   useAll(permable);
 }
 
 function useAll(inv: Item[]) {
-  print(`Found ${inv.length} skill-granting items in your inventory that you haven't used...`, "green");
   inv.forEach((item) => {
     if (args.sim) {
       print(`Using 1 ${item}.`);

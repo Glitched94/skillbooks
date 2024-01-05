@@ -19,7 +19,7 @@ export const args = Args.create("skillbooks", "A simple script to help you find 
   buy: Args.flag({
     setting: "tptb.skillbooks.buy",
     default: false,
-    help: "When true, will attempt to buy any items that grant skills you don't have priced below your \"buyLimit\"."
+    help: "When true, will attempt to buy any items that grant skills you don't have priced below your \"buyLimit\". Does not use the skillbooks, you can use this in conjunction with one of the use commands to buy and use."
   }),
   buyLimit: Args.number({
     setting: "tptb.skillbooks.buyLimit",

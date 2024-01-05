@@ -1,5 +1,5 @@
 import { Args } from "grimoire-kolmafia";
-import { Item, buy, mallPrice, print, use, userNotify } from "kolmafia";
+import { Item, buy, mallPrice, print, printHtml, use, userNotify } from "kolmafia";
 import { $items, $skill, get, have } from "libram";
 
 import { args } from "./lib/args";
@@ -58,7 +58,7 @@ export function main(command: string): void {
   if (!args.buy) {
     print(`Found ${haveItems.length} skill-granting items in your inventory that you haven't used...`, "green");
     haveItems.forEach((item) => {
-      print(`${item}, which gives the skill '${item.skill}'`);
+      printHtml(`<b>${item}</b>, which gives the skill <b style="color:green;">'${item.skill}'</b>`);
     });
   }
 }

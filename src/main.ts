@@ -58,7 +58,7 @@ export function main(command: string): void {
   if (!args.buy) {
     print(`Found ${haveItems.length} skill-granting items in your inventory that you haven't used...`, "green");
     haveItems.forEach((item) => {
-      printHtml(`<b>${item}</b>, which gives the skill <b style="color:green;">'${item.skill}'</b>`);
+      printHtml(`<b>${item}</b>, which gives the skill <b style="color:blue;">'${item.skill}'</b>`);
     });
   }
 }

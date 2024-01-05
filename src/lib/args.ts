@@ -2,24 +2,29 @@ import { Args } from "grimoire-kolmafia";
 
 export const args = Args.create("skillbooks", "A simple script to help you find and use skill-granting items you didn't know you had.", {
   use: Args.flag({
-    setting: "tptb.skillbooks.use",
+    setting: "",
     default: false,
-    help: "When true, will attempt to use any skill-granting items that are re-usable. Will not use items that give (Used) copies of themselves, but will use (Used) copies if you have them"
+    help: "When used, will attempt to use any skill-granting items that are reusable. Will not use items that give (Used) copies of themselves, but will use (Used) copies if you have them"
   }),
   useKarma: Args.flag({
-    setting: "tptb.skillbooks.useKarma",
+    setting: "",
     default: false,
-    help: "When true, will attempt to use as many skill-granting items as you can afford to perm with your current \"bankedKarma\" value."
+    help: "When used, will attempt to use as many reusable skill-granting items as you can afford to perm with your current \"bankedKarma\" value."
   }),
   useAll: Args.flag({
-    setting: "tptb.skillbooks.useAll",
+    setting: "",
     default: false,
-    help: "When true, will attempt to use all skill-granting items, re-usable or otherwise."
+    help: "When used, will attempt to use all skill-granting items, reusable or otherwise."
+  }),
+  useAllKarma: Args.flag({
+    setting: "",
+    default: false,
+    help: "When used, will attempt to use as many skill-granting items, reusable or otherwise, as you can afford to perm with your current \"bankedKarma\" value."
   }),
   buy: Args.flag({
-    setting: "tptb.skillbooks.buy",
+    setting: "",
     default: false,
-    help: "When true, will attempt to buy any items that grant skills you don't have priced below your \"buyLimit\". Does not use the skillbooks, you can use this in conjunction with one of the use commands to buy and use."
+    help: "When used, will attempt to buy any items that grant skills you don't have priced below your \"buyLimit\". Does not use the skillbooks, you can use this in conjunction with one of the use commands to buy and use."
   }),
   buyLimit: Args.number({
     setting: "tptb.skillbooks.buyLimit",
@@ -27,7 +32,7 @@ export const args = Args.create("skillbooks", "A simple script to help you find 
     help: "Defines the price limit for buying skill-granting items when used with the \"buy\" flag."
   }),
   sim: Args.flag({
-    setting: "tptb.skillbooks.buySim",
+    setting: "",
     default: false,
     help: "When used with another flag, will simply simulate what the result would be instead of actually performing it."
   })

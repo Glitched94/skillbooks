@@ -9,7 +9,11 @@ At it's core, the most basic usage of this script is calling `skillbooks`. This 
 ```
 > skillbooks
 
-A Beginner's Guide to Charming Snakes
+Found 35 skill-granting items in your inventory that you haven't used...
+Really Expensive Jewelry and You, which gives the skill 'Really Expensive Jewelrycrafting'
+Kissin' Cousins, which gives the skill 'Awesome Balls of Fire'
+Tales from the Fireside, which gives the skill 'Conjure Relaxing Campfire'
+...
 ```
 
 ## Using Skills

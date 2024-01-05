@@ -31,26 +31,26 @@ Automating the usage or purchase of items can be a scary concept. If you'd like 
 > skillbooks useAll sim
 
 Found 1 skill-granting items in your inventory that you haven't used...
-Using 1 A Beginner's Guide to Charming Snakes.
+Sim: Using 1 A Beginner's Guide to Charming Snakes.
 ```
 
 - `skillbooks buy sim`
 ```
 > skillbooks buy sim
 
-Buying 1 Really Expensive Jewelry and You at 4750
-Buying 1 Blizzards I Have Died In at 82200
-Buying 1 Maxing, Relaxing at 50900
-Buying 1 Travels with Jerry at 60497
-Buying 1 Let Me Be! at 17290
-Buying 1 Asleep in the Cemetery at 17448
-Buying 1 Sensual Massage for Creeps at 59000
-Buying 1 The Joy of Wassailing at 16000
-Buying 1 The Thorax's Codex of Tormenting Plants at 22222
-Buying 1 Ghost Pinching Quarterly at 56006
-Buying 1 warbear metalworking primer at 39000
-Buying 1 Spelunker of Fortune at 92000
-Buying 1 training scroll: Shivering Monkey Technique at 19900
-Buying 1 Pop Art: a Guide at 67000
+Sim: Buying 1 Really Expensive Jewelry and You at 4750
+Sim: Buying 1 Blizzards I Have Died In at 82200
+Sim: Buying 1 Maxing, Relaxing at 50900
+Sim: Buying 1 Travels with Jerry at 60497
+Sim: Buying 1 Let Me Be! at 17290
+Sim: Buying 1 Asleep in the Cemetery at 17448
+Sim: Buying 1 Sensual Massage for Creeps at 59000
+Sim: Buying 1 The Joy of Wassailing at 16000
+Sim: Buying 1 The Thorax's Codex of Tormenting Plants at 22222
+Sim: Buying 1 Ghost Pinching Quarterly at 56006
+Sim: Buying 1 warbear metalworking primer at 39000
+Sim: Buying 1 Spelunker of Fortune at 92000
+Sim: Buying 1 training scroll: Shivering Monkey Technique at 19900
+Sim: Buying 1 Pop Art: a Guide at 67000
 You'd spend 604213 meat to get 14 new skill-granting items.
 ```

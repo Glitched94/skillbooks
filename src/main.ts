@@ -12,9 +12,14 @@ export function main(command: string): void {
     return;
   }
 
-  // Filter item list to only items that grant skills that the player doesn't have and that they can use.
+  // Filter item list to only items that:
+  //    grant skills that the player doesn't have,
+  //    that they can use,
+  //    that are permable.
   var skillGranters: Item[] = $items``
-    .filter((item) => item.skill !== $skill`none` && !have(item.skill));
+    .filter((item) => item.skill !== $skill`none`
+                  && !have(item.skill)
+                  && item.skill.permable);
 
   if (args.buy) {
     if (args.buyLimit <= 0) {

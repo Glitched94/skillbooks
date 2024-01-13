@@ -7359,7 +7359,7 @@ var args = Args.create("skillbooks", "A simple script to help you find and use s
   useKarma: Args.flag({
     setting: "",
     default: false,
-    help: "When used, will attempt to use as many reusable skill-granting items as you can afford to perm with your current \"bankedKarma\" value."
+    help: 'When used, will attempt to use as many reusable skill-granting items as you can afford to perm with your current "bankedKarma" value.'
   }),
   useAll: Args.flag({
     setting: "",
@@ -7369,17 +7369,22 @@ var args = Args.create("skillbooks", "A simple script to help you find and use s
   useAllKarma: Args.flag({
     setting: "",
     default: false,
-    help: "When used, will attempt to use as many skill-granting items, reusable or otherwise, as you can afford to perm with your current \"bankedKarma\" value."
+    help: 'When used, will attempt to use as many skill-granting items, reusable or otherwise, as you can afford to perm with your current "bankedKarma" value.'
+  }),
+  useLimit: Args.number({
+    setting: "tptb.skillbooks.useLimit",
+    default: 0,
+    help: "Defines the price limit when using skill-granting items. For example, if you set this to 10000, it won't use any skillbooks with an acquire price greater than 10,000 meat. Setting this to 0 will use items of any price, and is the default behavior."
   }),
   buy: Args.flag({
     setting: "",
     default: false,
-    help: "When used, will attempt to buy any items that grant skills you don't have priced below your \"buyLimit\". Does not use the skillbooks, you can use this in conjunction with one of the use commands to buy and use."
+    help: 'When used, will attempt to buy any items that grant skills you don\'t have priced below your "buyLimit". Does not use the skillbooks, you can use this in conjunction with one of the use commands to buy and use.'
   }),
   buyLimit: Args.number({
     setting: "tptb.skillbooks.buyLimit",
     default: 0,
-    help: "Defines the price limit for buying skill-granting items when used with the \"buy\" flag."
+    help: 'Defines the price limit for buying skill-granting items when used with the "buy" flag.'
   }),
   sim: Args.flag({
     setting: "",
@@ -7446,9 +7451,12 @@ function main(command) {
 
   if (!args.buy) {
     (0,external_kolmafia_namespaceObject.print)("Found ".concat(haveItems.length, " skill-granting items in your inventory that you haven't used..."), "green");
+    var output = ['<table border=2 cols=3"><tr><th>Item</th><th>Skill</th><th>Mall Price</th></tr>'];
     haveItems.forEach(item => {
-      (0,external_kolmafia_namespaceObject.printHtml)("<b>".concat(item, "</b>, which gives the skill <b style=\"color:blue;\">'").concat(item.skill, "'</b>"));
+      output.push("<tr>" + "<td><p>".concat(item, "</p></td>") + "<td><p>".concat(item.skill, "</p></td>") + "<td><p>".concat((0,external_kolmafia_namespaceObject.toString)((0,external_kolmafia_namespaceObject.retrievePrice)(item), "%,d"), "</p></td>") + "</tr>");
     });
+    output.push("</table>");
+    (0,external_kolmafia_namespaceObject.printHtml)(output.join(""));
   }
 }
 
@@ -7501,11 +7509,31 @@ function useAllKarma(inv) {
 function useAll(inv) {
   inv.forEach(item => {
     if (args.sim) {
-      (0,external_kolmafia_namespaceObject.print)("Sim: Using 1 ".concat(item, "."));
+      simUsage(item);
     } else {
-      (0,external_kolmafia_namespaceObject.use)(1, item);
+      realUsage(item);
     }
   });
+}
+
+function simUsage(item) {
+  var price = (0,external_kolmafia_namespaceObject.retrievePrice)(item);
+
+  if (args.useLimit > 0 && price > args.useLimit) {
+    (0,external_kolmafia_namespaceObject.print)("Sim: Skipping ".concat(item, " because it's too expensive. (").concat((0,external_kolmafia_namespaceObject.toString)(price, "%,d"), " meat)"), "orange");
+  } else {
+    (0,external_kolmafia_namespaceObject.print)("Sim: Using 1 ".concat(item, "."));
+  }
+}
+
+function realUsage(item) {
+  var price = (0,external_kolmafia_namespaceObject.retrievePrice)(item);
+
+  if (args.useLimit > 0 && price > args.useLimit) {
+    (0,external_kolmafia_namespaceObject.print)("Skipping ".concat(item, " because it's too expensive. (").concat((0,external_kolmafia_namespaceObject.toString)(price, "%,d"), " meat)"), "orange");
+  } else {
+    (0,external_kolmafia_namespaceObject.use)(1, item);
+  }
 }
 var __webpack_export_target__ = exports;
 for(var i in __webpack_exports__) __webpack_export_target__[i] = __webpack_exports__[i];

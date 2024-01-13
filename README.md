@@ -8,13 +8,8 @@ Install by using `git checkout Glitched94/skillbooks.git release`
 At it's core, the most basic usage of this script is calling `skillbooks`. This command will print a list of all skill-granting items in your inventory.
 ```
 > skillbooks
-
-Found 35 skill-granting items in your inventory that you haven't used...
-Really Expensive Jewelry and You, which gives the skill 'Really Expensive Jewelrycrafting'
-Kissin' Cousins, which gives the skill 'Awesome Balls of Fire'
-Tales from the Fireside, which gives the skill 'Conjure Relaxing Campfire'
-...
 ```
+![skillbooks example output](/docs/imgs/skillbooks.png)
 
 ## Using Skills
 Each of these commands is mutually exclusive, you cannot mix and match them with each other.
@@ -22,6 +17,11 @@ Each of these commands is mutually exclusive, you cannot mix and match them with
 - `skillbooks useKarma` - Checks how much karma you have available and learns as many skills as you have the karma to softcore perm. Only uses items marked as `reusable`, same as the previous command.
 - `skillbooks useAll` - Uses any and all skill-granting items that you don't already know from your inventory. Since this can be a destructive action if you don't have the karma to perm all of the skills, please use this at your own risk.
 - `skillbooks useAllKarma` - Checks how much karma you have available and learns as many skills as you have the karma to softcore perm. Uses all items, not just `reusable`, same as previous command.
+
+If you'd like to restrict the script to only use items valued below a certain threshold, you can either include `useLimit=10000` as part of the command, or set a value to `tptb.skillbooks.useLimit` by doing `set tptb.skillbooks.useLimit=10000`. The value is determined using Mafia's `retrievePrice` method. To disable the limit, set the value to `0`.
+
+Below is an example of the `skillbooks useAll sim` output after setting the useLimit to 5000.
+![skillbooks useAll sim example output](/docs/imgs/skillbooks_useAll_sim.png)
 
 ## Buying Skills
 Skillbooks includes a command to purchase all skill-granting items you haven't previously used below a configured price point. To set the maximum price to spend on acquiring a new skill-granter, set the `tptb.skillbooks.priceLimit` property, like so `set tptb.skillbooks.buyLimit=50000`.

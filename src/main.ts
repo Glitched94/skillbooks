@@ -1,11 +1,21 @@
 import { Args } from "grimoire-kolmafia";
-import { Item, buy, mallPrice, print, printHtml, use, userNotify } from "kolmafia";
+import {
+  Item,
+  buy,
+  mallPrice,
+  print,
+  printHtml,
+  retrievePrice,
+  toString,
+  use,
+  userNotify,
+} from "kolmafia";
 import { $items, $skill, get, have } from "libram";
 
 import { args } from "./lib/args";
 
 export function main(command: string): void {
-  userNotify("")
+  userNotify("");
   Args.fill(args, command);
   if (args.help) {
     Args.showHelp(args);
@@ -16,10 +26,9 @@ export function main(command: string): void {
   //    grant skills that the player doesn't have,
   //    that they can use,
   //    that are permable.
-  var skillGranters: Item[] = $items``
-    .filter((item) => item.skill !== $skill`none`
-                  && !have(item.skill)
-                  && item.skill.permable);
+  var skillGranters: Item[] = $items``.filter(
+    (item) => item.skill !== $skill`none` && !have(item.skill) && item.skill.permable
+  );
 
   if (args.buy) {
     if (args.buyLimit <= 0) {
@@ -31,35 +40,53 @@ export function main(command: string): void {
   }
 
   // Get just the list of items they have available
-  var haveItems: Item[] = skillGranters
-    .filter((item) => have(item));
+  var haveItems: Item[] = skillGranters.filter((item) => have(item));
 
   if (args.use) {
     useReusable(haveItems);
     return;
   }
-  
+
   if (args.useKarma) {
     useReusableKarma(haveItems);
     return;
   }
-  
+
   if (args.useAll) {
-    print(`Found ${haveItems.length} skill-granting items in your inventory that you haven't used...`, "green");
+    print(
+      `Found ${haveItems.length} skill-granting items in your inventory that you haven't used...`,
+      "green"
+    );
     useAll(haveItems);
     return;
   }
-  
+
   if (args.useAllKarma) {
     useAllKarma(haveItems);
     return;
   }
-  
+
   if (!args.buy) {
-    print(`Found ${haveItems.length} skill-granting items in your inventory that you haven't used...`, "green");
+    print(
+      `Found ${haveItems.length} skill-granting items in your inventory that you haven't used...`,
+      "green"
+    );
+    const output = [
+      '<table border=2 cols=3"><tr><th>Item</th><th>Skill</th><th>Mall Price</th></tr>',
+    ];
+
     haveItems.forEach((item) => {
-      printHtml(`<b>${item}</b>, which gives the skill <b style="color:blue;">'${item.skill}'</b>`);
+      output.push(
+        "<tr>" +
+          `<td><p>${item}</p></td>` +
+          `<td><p>${item.skill}</p></td>` +
+          `<td><p>${toString(retrievePrice(item), "%,d")}</p></td>` +
+          "</tr>"
+      );
     });
+
+    output.push(`</table>`);
+    printHtml(output.join(""));
   }
 }
 
@@ -86,10 +113,12 @@ function buyItems(items: Item[]) {
 }
 
 function useReusable(inv: Item[]) {
-  var reusable = inv
-    .filter((item) => item.reusable);
+  var reusable = inv.filter((item) => item.reusable);
 
-  print(`Found ${reusable.length} reusable skill-granting items in your inventory that you haven't used...`, "green");
+  print(
+    `Found ${reusable.length} reusable skill-granting items in your inventory that you haven't used...`,
+    "green"
+  );
   useAll(reusable);
 }
 
@@ -97,31 +126,58 @@ function useReusableKarma(inv: Item[]) {
   var bankedKarma = get("bankedKarma");
   var limit = bankedKarma / 100;
 
-  var permable = inv
-    .filter((item) => item.reusable)
-    .slice(0, limit);
+  var permable = inv.filter((item) => item.reusable).slice(0, limit);
 
-  print(`Found ${permable.length} reusable skill-granting items in your inventory that you haven't used and have the karma to softcore perm...`, "green");
+  print(
+    `Found ${permable.length} reusable skill-granting items in your inventory that you haven't used and have the karma to softcore perm...`,
+    "green"
+  );
   useAll(permable);
 }
 
 function useAllKarma(inv: Item[]) {
   var bankedKarma = get("bankedKarma");
   var limit = bankedKarma / 100;
-  
-  var permable = inv
-    .slice(0, limit);
 
-  print(`Found ${permable.length} skill-granting items in your inventory that you haven't used and have the karma to softcore perm...`, "green");
+  var permable = inv.slice(0, limit);
+
+  print(
+    `Found ${permable.length} skill-granting items in your inventory that you haven't used and have the karma to softcore perm...`,
+    "green"
+  );
   useAll(permable);
 }
 
 function useAll(inv: Item[]) {
   inv.forEach((item) => {
     if (args.sim) {
-      print(`Sim: Using 1 ${item}.`);
+      simUsage(item);
     } else {
-      use(1, item);
+      realUsage(item);
     }
   });
+}
+
+function simUsage(item: Item): void {
+  const price = retrievePrice(item);
+  if (args.useLimit > 0 && price > args.useLimit) {
+    print(
+      `Sim: Skipping ${item} because it's too expensive. (${toString(price, "%,d")} meat)`,
+      "orange"
+    );
+  } else {
+    print(`Sim: Using 1 ${item}.`);
+  }
+}
+
+function realUsage(item: Item): void {
+  const price = retrievePrice(item);
+  if (args.useLimit > 0 && price > args.useLimit) {
+    print(
+      `Skipping ${item} because it's too expensive. (${toString(price, "%,d")} meat)`,
+      "orange"
+    );
+  } else {
+    use(1, item);
+  }
 }
